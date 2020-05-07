@@ -1,0 +1,137 @@
+#card {
+}
+
+.createTodo {
+  display: flex;
+  width: 100%;
+}
+
+.createTodo input {
+  background: none;
+  border: none;
+  height: 60px;
+  border-bottom: 1px solid #d0d0d0;
+  width: calc(100% - 60px);
+  font-size: 20px;
+  padding: 0px 0px 0px 20px;
+}
+
+.createTodo button {
+  width: 100px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: #00c3ff;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.createTodo button:hover {
+  cursor: pointer;
+  font-weight: bold;
+  background: #0087ff;
+}
+
+.todoList {
+  width: 100%;
+  position: relative;
+  max-height: calc(100vh - 60px - 60px - 60px - 40px - 10px);
+  margin-top: 40px;
+  overflow-y: auto;
+}
+
+.todoList ul,
+.todoList li {
+  list-style: none;
+}
+
+.todoList ul {
+  width: 90%;
+  margin: auto;
+}
+
+.todoList li {
+  background: white;
+  margin: 15px 0px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.01);
+  border-radius: 3px;
+  padding: 15px 20px;
+  min-height: 40px;
+  display: flex;
+  width: 100%;
+}
+
+.todoList li div:first-of-type {
+  width: calc(100% - 40px);
+  padding-left: 20px;
+}
+.todoList li div:last-of-type {
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.todoList .task {
+  font-size: 1.3rem;
+}
+
+.todoList .author {
+  color: #a3b9bf;
+  font-size: 0.9rem;
+}
+
+.todoList .doneStatus {
+  height: 40px;
+  width: 40px;
+  background: none;
+  border: 1px solid grey;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.todoList .doneStatus:hover {
+  background: #1cbb3d;
+}
+
+.todoList .doneStatus.active {
+  background: #1cbb3d;
+}
+.todoList .doneStatus.active:hover {
+  background: white;
+}
+
+.todoList .doneStatus.active::after {
+  content: "";
+  background-color: transparent;
+
+  /* setting the checkbox */
+  /* short arm */
+  width: 8px;
+  border-bottom: 4px solid white;
+  /* long arm */
+  height: 16px;
+  border-right: 4px solid white;
+
+  /* rotate the mirrored L to make it a checkbox */
+  transform: rotate(40deg);
+  -o-transform: rotate(40deg);
+  -ms-transform: rotate(40deg);
+  -webkit-transform: rotate(40deg);
+  color: white;
+}
+
+.todoList .delete {
+  color: red;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

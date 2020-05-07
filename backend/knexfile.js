@@ -1,0 +1,15 @@
+// Update with your config settings.
+
+const credentials = require(__dirname + "/config/db_config.js");
+
+module.exports = {
+  development: {
+    client: "mysql",
+    connection: {
+      database: credentials.database,
+      user: credentials.user,
+      password: credentials.password
+    }
+    // debug: true
+  }
+};
