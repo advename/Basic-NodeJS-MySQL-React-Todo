@@ -6,6 +6,7 @@ const { isAuthenticated } = require(__dirname + "/../../helpers/auth.js");
 const crypto = require("crypto");
 const moment = require("moment");
 const { CustomError } = require(__dirname + "/../../helpers/error.js");
+const sendMail = require(__dirname + "/../../helpers/mail.js");
 
 /**
  * Get the current logged in user details, except hashed password of course
@@ -145,8 +146,9 @@ router.post("/recovery/request/", async (req, res, next) => {
 
     // Create cryptographical reset token (DO NOT use random numbers for reset token - they are too predictable)
     let recover_password_token = crypto.randomBytes(32).toString("hex");
+    const lifetime = 24; //hours until expire
     let recover_password_exp_date = moment()
-      .add(24, "hours")
+      .add(lifetime, "hours")
       .format("YYYY-MM-DD HH:mm:ss");
     console.log("Recovery token: " + recover_password_token);
     await user.$query().patch({
@@ -158,6 +160,22 @@ router.post("/recovery/request/", async (req, res, next) => {
     //
     // Do recovery email sending stuff
     //
+
+    const emailBody = `Hello ${user.username},
+
+    Your account password token is ${recover_password_token}
+    This token is valid only within ${lifetime} hours.
+    `;
+    console.log("EMIAAAALA");
+    const emailSent = await sendMail(
+      "develop.kiwi@gmail.com",
+      "Password reset",
+      emailBody
+    );
+
+    if (!emailSent) {
+      throw new CustomError(502, "Email not sent");
+    }
 
     res.json({ message: "Recovery email sent" });
   } catch (err) {

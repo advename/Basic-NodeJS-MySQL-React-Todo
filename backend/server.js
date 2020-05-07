@@ -10,6 +10,7 @@ const { errorHandler, CustomError } = require(__dirname + "/helpers/error.js"); 
 const session = require("express-session"); //Handle logged in sessions
 const key = require(__dirname + "/config/keys.js"); //Store and import all keys
 const KnexSessionStore = require("connect-session-knex")(session); // Store sessions in MySQL database using Knex (sessions MUST be stored outside of cache)
+const nodemailer = require("nodemailer");
 
 // Create express instance
 const app = express();
