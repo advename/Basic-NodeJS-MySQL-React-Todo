@@ -9,6 +9,7 @@ import PasswordRecovery from "./components/PasswordRecovery/PasswordRecovery";
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const [authenticating, setAuthenticating] = useState(true);
 
   function initialIsAuthenticated() {
     fetch("http://localhost:8080/api/users/is-authenticated/", {
@@ -18,6 +19,7 @@ export default function App() {
         "Content-Type": "application/json"
       }
     }).then(res => {
+      setAuthenticating(false);
       if (res.ok) {
         setIsAuth(true);
       }
@@ -35,40 +37,41 @@ export default function App() {
           <Navbar isAuth={isAuth} setIsAuth={setIsAuth} />
         </header>
         <main>
-          {isAuth ? (
-            <React.Fragment>
-              <Redirect to="/" />
-              <Switch>
-                <Route exact path="/" component={Todo} />
-              </Switch>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {/* <Redirect to="/login" /> */}
-              <Switch>
-                <Route
-                  path="/login"
-                  render={props => <Login {...props} setIsAuth={setIsAuth} />}
-                />
-                <Route path="/signup" component={SignUp} />
-                <Route path="/password-recovery" component={PasswordRecovery} />
-              </Switch>
-            </React.Fragment>
-          )}
+          <Switch>
+            {/* <Redirect to="/" /> */}
+            {/* <Route exact path="/" component={Todo} /> */}
+            <PrivateRoute exact path="/" component={Todo} isAuth={isAuth} />
+
+            <Route
+              path="/login"
+              render={props => <Login {...props} setIsAuth={setIsAuth} />}
+            />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/password-recovery" component={PasswordRecovery} />
+          </Switch>
         </main>
+        )}
       </div>
     </BrowserRouter>
   );
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  console.log(rest);
+const PrivateRoute = ({ component: Component, isAuth }) => {
   return (
     <Route
-      {...rest}
       render={props =>
-        true ? <Component {...props} /> : <Redirect to="/login" />
+        isAuth ? <Component {...props} /> : <Component {...props} />
       }
     />
   );
 };
+
+// const PrivateRoute = ( component, ...options ) => {
+//   console.log("AYYYOOoo");
+//   const { isAuth } = options;
+//   if (isAuth) {
+//     return <Route {...options} component={component} />;
+//   } else {
+//     return <Redirect to="/login" />;
+//   }
+// };

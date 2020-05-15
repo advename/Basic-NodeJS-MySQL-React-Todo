@@ -14,15 +14,22 @@ export default function Todo() {
     // Where we're fetching data from
     fetch(`http://localhost:8080/api/todos/`, { credentials: "include" })
       // We get the API response and receive data in JSON format...
-      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        if (res.status === 403) {
+          return history.push("/login"); // redirect to login when
+        }
+
+        if (!res.ok) {
+          throw new Error(["Error loading todos"]);
+        } else {
+          return res.json();
+        }
+      })
       // ...then we update the users state
       .then(data => {
-        if (!Array.isArray(data)) {
-          history.push("/login");
-        } else {
-          setTodos(data);
-          setIsLoading(false);
-        }
+        setTodos(data);
+        setIsLoading(false);
       })
       // Catch any errors we hit and update the app
       .catch(error => {
