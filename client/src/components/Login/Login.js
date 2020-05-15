@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Login.module.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 export default function Login({ setIsAuth }) {
   const history = useHistory();
@@ -57,6 +57,9 @@ export default function Login({ setIsAuth }) {
           Log in
         </button>
         {error ? <p>{error}</p> : null}
+        <p onClick={() => history.push("/password-recovery/")}>
+          Forgot password?
+        </p>
       </form>
     </div>
   );

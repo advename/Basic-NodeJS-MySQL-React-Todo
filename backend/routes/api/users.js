@@ -163,7 +163,7 @@ router.post("/recovery/request/", async (req, res, next) => {
 
     const emailBody = `Hello ${user.username},
 
-    Your account password token is ${recover_password_token}
+    Reset your password by following <a href="http://localhost:3000/password-recovery?token=${recover_password_token}&id=${user.id}">this link.</a>
     This token is valid only within ${lifetime} hours.
     `;
     console.log("EMIAAAALA");

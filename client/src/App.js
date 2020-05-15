@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Todo from "./components/Todo/Todo";
 import Login from "./components/Login/Login";
-import SignUp from "./components/SignUp/SignUp.js";
+import SignUp from "./components/SignUp/SignUp";
+import PasswordRecovery from "./components/PasswordRecovery/PasswordRecovery";
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -43,13 +44,14 @@ export default function App() {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Redirect to="/login" />
+              {/* <Redirect to="/login" /> */}
               <Switch>
                 <Route
                   path="/login"
                   render={props => <Login {...props} setIsAuth={setIsAuth} />}
                 />
                 <Route path="/signup" component={SignUp} />
+                <Route path="/password-recovery" component={PasswordRecovery} />
               </Switch>
             </React.Fragment>
           )}
@@ -58,3 +60,15 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  console.log(rest);
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        true ? <Component {...props} /> : <Redirect to="/login" />
+      }
+    />
+  );
+};

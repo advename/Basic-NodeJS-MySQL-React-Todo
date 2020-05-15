@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./SignUp.module.css";
 import { useHistory } from "react-router-dom";
 
-export default function Login() {
+export default function SignUp() {
   const history = useHistory();
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
@@ -10,7 +10,7 @@ export default function Login() {
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(null);
 
-  function signUp() {
+  function createUser() {
     setError(null);
     fetch("http://localhost:8080/api/users/", {
       method: "POST",
@@ -74,7 +74,7 @@ export default function Login() {
           placeholder="Password"
           onChange={e => setConfirmPassword(e.target.value)}
         />
-        <button type="button" onClick={signUp}>
+        <button type="button" onClick={createUser}>
           Sign up
         </button>
         {error ? <p>{error}</p> : null}
